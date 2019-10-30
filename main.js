@@ -422,8 +422,11 @@ function processData(data){
     });
 }
 
-
+var check_auto = true;
 function beginSuccess(a, cb){
+    if(check_auto != true){
+        return;
+    }
     var obj = {
         idsensor: 1,
         data: a,
@@ -456,6 +459,15 @@ function beginSuccess(a, cb){
     });
 }
 
+app.get("/auto", function(req, res){
+    let a = req.params;
+    console.log(a);
+    if(a.data == 1){
+        check_auto = true;
+    } else {
+        check_auto = false;
+    }
+})
 
 app.get("/sensor", function(req, res) {
     var a = req.query;
