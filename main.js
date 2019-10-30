@@ -8,6 +8,19 @@ var cors = require('cors');
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var object_define = JSON.parse(fs.readFileSync('element.json', 'utf8'));
 
+var mqtt = require('mqtt')
+// var clientMqtt  = mqtt.connect('mqtt://localhost')
+var clientMqtt  = mqtt.connect('mqtt://cretabase.kbvision.tv')
+// var clientMqtt = mqtt.connect('mqtt://broker.hivemq.com');
+clientMqtt.on('connect', function () {
+    clientMqtt.subscribe('/esp', function (err) {
+        if (!err) {
+            clientMqtt.publish('/esp', 'Hello mqtt');
+        }
+    });
+})
+
+
 /* 
     DEVICE CONFIG TO SERVER
 */
@@ -314,6 +327,7 @@ function setSensorAutoLoad() {
     for (i in aESP) {
         aESP[i].esp.sync();
     }
+    clientMqtt.publish('/esp', JSON.stringify(aESP));
 }
 
 function insertHistory(obj){
@@ -486,7 +500,6 @@ app.get("/sdevice", function(req, res){
                         error: e.code
                     })
                 })	
-			//res.send(d);
 			})
 		}
 	}
