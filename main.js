@@ -435,7 +435,6 @@ function beginSuccess(a, cb){
         if (response.statusCode == 200) {
             if (cb) {
                 cb(JSON.parse(body))
-                
             }
             processData(JSON.parse(body));
             console.log("BOSY", body);
