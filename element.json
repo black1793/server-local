@@ -1,0 +1,44 @@
+{
+    "object":{
+        "device": {
+            "element": "['name','host', 'port', 'note']",
+            "title": "DEVICE",
+            "database": "mysql-1"
+        },
+        "history": {
+            "element": "['completed','actionCode', 'status', 'systemId', 'actionName', 'humidity', 'temperature', 'illuminance', 'moisture', 'ec', 'ph', 'windSpeed']",
+            "title": "HISTORY",
+            "database": "mysql-1"
+        },
+        "log": {
+            "element":"['note','humidity', 'temperture', 'illuminance', 'moisture', 'ec', 'ph', 'windSpeed']",
+            "title": "",
+            "database": "mysql-1"
+        },
+        "sensor": {
+            "element":"['name', 'host', 'port', 'note', 'humidity', 'temperature', 'illuminance', 'moisture', 'ec', 'ph', 'windSpeed']",
+            "title": "SENSOR",
+            "database": "mysql-1"
+        },
+        "config_system_cr":{
+            "element": "['note', 'cr_key', 'cr_value']",
+            "database": "mysql-1"
+        }
+    },
+    "database":{
+        "mysql-1":{
+            "host": "localhost",
+            "port": "3306",
+            "user": "black",
+            "password": "asrkpvg7",
+            "database": "xtek"
+        },
+        "mysql-2":{
+            "host": "localhost",
+            "port": "3306",
+            "user": "root",
+            "password": "asrkpvg7",
+            "database": "banhang"
+        }
+    }
+}

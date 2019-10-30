@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body style="overflow-x: auto">
+        <div ng-app="edit_database">
+            <div class="w3-container" ng-controller="show" ng-init="mainPage= '<%= mainPage %>'; form= <%= form %> ">
+                <div class="w3-light-gray w3-margin">
+                    <h2 class="w3-center">TẠO - CHỈNH - SỬA BẢNG: <b>{{mainPage}}</b></h2>
+                    <button class="w3-button w3-round-xlarge w3-blue" onclick="window.history.back()">Trở lại</button>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col w3-half w3-container">
+                        <form action="/insert/<%= mainPage %>" method="post">
+                            <table class="w3-table-all">
+                                <tr>
+                                    <th>TITLE</th>
+                                    <th>VALUE</th>
+                                </tr>
+                                <tr ng-repeat="i in form">
+                                    <td>{{i}}</td>
+                                    <td><input name="{{i}}"></td>
+                                </tr>
+                            </table>
+                            <button class="w3-button w3-blue w3-round-xxlarge w3-margin" type="submit">Tạo mới</button>
+                        </form>
+                    </div>
+                    <div class="w3-col w3-half">
+                        <div class="w3-blue w3-round-xlarge"><h3 class="w3-center">THÔNG TIN HỆ THỐNG</h3></div>
+                        <div>
+                            <p>Tổng số: {{show.data.length}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="w3-table-all">
+                        <tr>
+                            <th ng-repeat="(key, value) in show.data[0]">{{key}}</th>
+                        </tr>
+                        <tr ng-repeat="i in show.data">
+                            <td ng-repeat="(k,j) in i">
+                                <input type="text" ng-model="i[k]">
+                            </td>
+                            <td><button ng-click="update(i['id' + mainPage], mainPage)">U</button><button ng-click="delete(i['id' + mainPage], mainPage)">X</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script>
+        var app_database = angular.module("edit_database", []);
+        app_database.controller("show", function($scope, $http, $interval, $timeout) {
+            $scope.mainPage = "";
+            $scope.form = [];
+            // $interval(function(){
+            //     console.log($scope.mainPage);
+            // }, 500);
+            // $scope.show = "Hello World";
+            $scope.begin = function(){
+                $http.get("/table?table=" + $scope.mainPage).then((response)=>{
+                    $scope.show = response.data;
+                    console.log(response.data);
+                })
+                console.log($scope.form)
+            }
+            $timeout($scope.begin, 100);
+            $scope.update = function(id, tb){
+                // console.log(id)
+                for(i in $scope.show.data){
+                    // console.log(id, $scope.show.data[i]["id" + $scope.mainPage])
+                    if($scope.show.data[i]["id" + $scope.mainPage] == id) {
+                        console.log($scope.show.data[i])
+                        // console.log(o)
+                        var obj = {
+                            table: tb,
+                            data: $scope.show.data[i]
+                        }
+                        // console.log(obj)
+                        $http.put("/update", obj).then((a)=>{
+                            console.log(a);
+                        }).catch((e)=>{
+                            console.log(e);
+                        })
+                    }
+                }
+                
+            }
+            $scope.delete = function(id, tb){
+                console.log(id)
+                if(confirm("You are ok?")){
+                } else {
+                    return;
+                }
+                console.log(id);
+                $http.get("/delete" + "?id=" + id + "&table=" + tb).then((a)=>{
+                    console.log(a);
+                    $scope.begin();
+                }).catch((e) => {
+                    console.log(e);
+                })
+            }
+
+            });
+
+        </script>
+    </body>
+</html>

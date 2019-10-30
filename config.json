@@ -1,0 +1,17 @@
+{
+    "host": "0.0.0.0",
+    "port": "8000",
+    "mysql":{
+        "host": "192.168.10.103",
+        "port": "3306",
+        "user": "root",
+        "password": "asrkpvg7",
+        "database": "taichinh"
+    },
+    "plc":{
+        "address":{
+            "host": "192.168.3.124",
+            "port": "9000"
+        }
+    }
+}

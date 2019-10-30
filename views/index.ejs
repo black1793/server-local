@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <body style="overflow: auto;" class="w3-container w3-margin-top"  ng-app="api">
+        <div class="w3-row">
+            <div class="w3-col w3-half">
+                <h1 class="">--o0o--</h1>
+                <div>
+                    <a href="http://192.168.10.108:9000/object/xtek_support">CHỈNH BIÊN</a><br>
+                    <a href="/object/sensor">SENSOR</a><br>
+                    <a href="/object/device">PLC</a><br>
+                    <a href="/object/config_system_cr">Hệ thống</a><br>
+                    <!-- <a href="http://localhost:9000/object/xtek_support_cr"></a> -->
+                </div>
+            </div>
+            <div class="w3-col w3-half">
+                <h1>THIẾT BỊ</h1>
+                <div ng-controller="plc">
+                    <div class="w3-green w3-round"> 
+                        <h4 class="w3-center">PLC</h4>
+                    </div>
+                    <table class="w3-table-all">
+                        <tr>
+                            <th>NAME</th>
+                            <th>CONTROL</th>
+                        </tr>
+                        <tr ng-repeat="i in devices">
+                            <td>{{i.name}}</td>
+                            <td><button ng-click="controlDevice(i.iddevice)" id="btn-{{i.iddevice}}">ON</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-controller="esp">
+                    <div class="w3-blue w3-round"> 
+                        <h4 class="w3-center">ESP</h4>
+                    </div>
+                    <div>
+                        <table class="w3-table-all w3-border">
+                            <tr>
+                                <th>NAME</th>
+                                <th>VALUE</th>
+                            </tr>
+                            <tr ng-repeat="i in v_sensors">
+                                <td>{{i.key}}</td>
+                                <td>{{i.value}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/app.js"></script>
+    </body>
+</html>
