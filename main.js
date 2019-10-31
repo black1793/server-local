@@ -10,8 +10,8 @@ var object_define = JSON.parse(fs.readFileSync('element.json', 'utf8'));
 
 var mqtt = require('mqtt')
 // var clientMqtt  = mqtt.connect('mqtt://localhost')
-var clientMqtt  = mqtt.connect('mqtt://cretabase.kbvision.tv')
-// var clientMqtt = mqtt.connect('mqtt://broker.hivemq.com');
+// var clientMqtt  = mqtt.connect('mqtt://cretabase.kbvision.tv')
+var clientMqtt = mqtt.connect('mqtt://broker.hivemq.com');
 clientMqtt.on('connect', function () {
     clientMqtt.subscribe('/esp', function (err) {
         if (!err) {
