@@ -424,9 +424,11 @@ function processData(data){
 
 var check_auto = true;
 function beginSuccess(a, cb){
-    if(o_config_database.auto_control != true){
+    if(parseInt(o_config_database.auto_control) != 1){
+        console.log("He thong manual");
         return;
     }
+    console.log("He thong manual");
     var obj = {
         idsensor: 1,
         data: a,
