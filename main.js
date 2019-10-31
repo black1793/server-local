@@ -8,6 +8,19 @@ var cors = require('cors');
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var object_define = JSON.parse(fs.readFileSync('element.json', 'utf8'));
 
+var mqtt = require('mqtt')
+// var clientMqtt  = mqtt.connect('mqtt://localhost')
+// var clientMqtt  = mqtt.connect('mqtt://cretabase.kbvision.tv')
+var clientMqtt = mqtt.connect('mqtt://broker.hivemq.com');
+clientMqtt.on('connect', function () {
+    clientMqtt.subscribe('/esp', function (err) {
+        if (!err) {
+            clientMqtt.publish('/esp', 'Hello mqtt');
+        }
+    });
+})
+
+
 /* 
     DEVICE CONFIG TO SERVER
 */
@@ -310,10 +323,11 @@ function setSensor() {
 
 var AULOADVALUE = 2000;
 function setSensorAutoLoad() {
-    console.log("UPSENSOR")
+    console.log("326","UPSENSOR")
     for (i in aESP) {
         aESP[i].esp.sync();
     }
+    clientMqtt.publish('/esp', JSON.stringify(aESP));
 }
 
 function insertHistory(obj){
@@ -408,8 +422,13 @@ function processData(data){
     });
 }
 
-
+var check_auto = true;
 function beginSuccess(a, cb){
+    if(parseInt(o_config_database.auto_control) != 1){
+        console.log("He thong manual");
+        return;
+    }
+    console.log("He thong manual");
     var obj = {
         idsensor: 1,
         data: a,
@@ -442,6 +461,15 @@ function beginSuccess(a, cb){
     });
 }
 
+app.get("/auto", function(req, res){
+    let a = req.params;
+    console.log(a);
+    if(a.data == 1){
+        check_auto = true;
+    } else {
+        check_auto = false;
+    }
+})
 
 app.get("/sensor", function(req, res) {
     var a = req.query;
@@ -486,7 +514,6 @@ app.get("/sdevice", function(req, res){
                         error: e.code
                     })
                 })	
-			//res.send(d);
 			})
 		}
 	}
