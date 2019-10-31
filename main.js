@@ -323,7 +323,7 @@ function setSensor() {
 
 var AULOADVALUE = 2000;
 function setSensorAutoLoad() {
-    console.log("UPSENSOR")
+    console.log("326","UPSENSOR")
     for (i in aESP) {
         aESP[i].esp.sync();
     }
