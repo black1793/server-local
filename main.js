@@ -424,7 +424,7 @@ function processData(data){
 
 var check_auto = true;
 function beginSuccess(a, cb){
-    if(check_auto != true){
+    if(o_config_database.auto_control != true){
         return;
     }
     var obj = {
