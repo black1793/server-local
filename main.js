@@ -496,13 +496,13 @@ app.get("/sensor", function(req, res) {
 
 app.get("/sdevice", function(req, res){
 	var a = req.query;
-	console.log(a);
+	// console.log(a);
 	for(i in aPLC){
 		if(aPLC[i].id == a.idplc) {
 		     aPLC[i].plc.status(function(d){
 			mysql.connect2query(object_define.database[object_define.object['device'].database], "select * from device").then((a) => {
                     for(j in a){
-			            console.log("J:", a[j]);
+			            // console.log("J:", a[j]);
                         let k = a[j].note.split("D")[1];
                         a[j].status = d["state" + k];
                     }
@@ -524,15 +524,15 @@ app.get("/sdevice", function(req, res){
 
 function getPlc(id_plc){
     // clientMqtt.publish('/esp', JSON.stringify(aESP));
-    console.log("ID:", id_plc);
-    console.log(aPLC)
+    // console.log("ID:", id_plc);
+    // console.log(aPLC)
     for(i in aPLC){
 		if(aPLC[i].id == id_plc) {
-            console.log("ID 1:", id_plc);
+            // console.log("ID 1:", id_plc);
 		    aPLC[i].plc.status(function(d){
 			mysql.connect2query(object_define.database[object_define.object['device'].database], "select * from device").then((a) => {
                     for(j in a){
-			            console.log("J:", a[j]);
+			            // console.log("J:", a[j]);
                         let k = a[j].note.split("D")[1];
                         a[j].status = d["state" + k];
                     }
