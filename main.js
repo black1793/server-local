@@ -328,6 +328,9 @@ function setSensorAutoLoad() {
         aESP[i].esp.sync();
     }
     clientMqtt.publish('/esp', JSON.stringify(aESP));
+
+    getPlc("1");
+
 }
 
 function insertHistory(obj){
@@ -428,7 +431,7 @@ function beginSuccess(a, cb){
         console.log("He thong manual");
         return;
     }
-    console.log("He thong manual");
+    console.log("He thong AUTO");
     var obj = {
         idsensor: 1,
         data: a,
@@ -499,7 +502,7 @@ app.get("/sdevice", function(req, res){
 		     aPLC[i].plc.status(function(d){
 			mysql.connect2query(object_define.database[object_define.object['device'].database], "select * from device").then((a) => {
                     for(j in a){
-			console.log("J:", a[j]);
+			            console.log("J:", a[j]);
                         let k = a[j].note.split("D")[1];
                         a[j].status = d["state" + k];
                     }
@@ -518,4 +521,33 @@ app.get("/sdevice", function(req, res){
 		}
 	}
 })
+
+function getPlc(id_plc){
+    // clientMqtt.publish('/esp', JSON.stringify(aESP));
+    for(i in aPLC){
+		if(aPLC[i].id == id_plc) {
+		    aPLC[i].plc.status(function(d){
+			mysql.connect2query(object_define.database[object_define.object['device'].database], "select * from device").then((a) => {
+                    for(j in a){
+			            console.log("J:", a[j]);
+                        let k = a[j].note.split("D")[1];
+                        a[j].status = d["state" + k];
+                    }
+                    // res.send({
+                    //     status: "OK",
+                    //     data: a
+                    // });
+                    clientMqtt.publish('/plc', JSON.stringify(a));
+                }).catch(( e) => {
+                    console.log('542', e);
+                    // res.send({
+                    //     status: "ERROR",
+                    //     error: e.code
+                    // })
+                })	
+			})
+		}
+	}
+}
+
 app.listen(config.port);
