@@ -524,6 +524,7 @@ app.get("/sdevice", function(req, res){
 
 function getPlc(id_plc){
     // clientMqtt.publish('/esp', JSON.stringify(aESP));
+    console.log("ID:", getPlc);
     for(i in aPLC){
 		if(aPLC[i].id == id_plc) {
 		    aPLC[i].plc.status(function(d){
